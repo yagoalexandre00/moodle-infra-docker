@@ -1,4 +1,3 @@
 html/
-mariadb-data/
+mariadb_data/
 .env
-

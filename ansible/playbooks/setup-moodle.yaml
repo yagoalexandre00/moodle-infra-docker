@@ -1,0 +1,18 @@
+---
+- name: Setup moodle app
+  hosts: servers
+  become: yes
+
+  tasks:
+    # - name: Download Moodle App from Github
+    #   ansible.builtin.git:
+    #     repo: https://github.com/moodle/moodle.git
+    #     dest: /opt/moodle
+    #     version: MOODLE_402_STABLE
+    #     clone: true
+    - name: Copy docker-compose.yaml from host to remote machine
+      ansible.builtin.copy:
+        src: ../../docker-compose.yaml
+        dest: /opt/
+    - name: Start Apache server 
+      ansible.builtin.shell: docker compose --file /opt/docker-compose.yaml up -d

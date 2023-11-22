@@ -1,0 +1,30 @@
+---
+- name: Instalação e configuração do Docker e docker-compose
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: Update packages
+      dnf:
+        name: '*'
+        state: latest
+    - name: Set up docker repository
+      shell: |
+        dnf install -y yum-utils
+        yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    - name: Install the latest version of Docker Engine and containerd
+      dnf:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+    - name: Instal git
+      dnf:
+        name: git
+        state: latest
+    - name: Start and enable docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+    
